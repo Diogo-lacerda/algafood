@@ -1,9 +1,15 @@
 package com.algaworks.algafood.domain.model;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+@Setter
+@Getter
 @Entity
 public class Restaurante {
 
@@ -16,29 +22,6 @@ public class Restaurante {
     @Column(name = "taxa_frete", precision = 19, scale = 2)
     private BigDecimal taxaFrete;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public BigDecimal getTaxaFrete() {
-        return taxaFrete;
-    }
-
-    public void setTaxaFrete(BigDecimal taxaFrete) {
-        this.taxaFrete = taxaFrete;
-    }
 
     @Override
     public boolean equals(Object o) {
