@@ -27,6 +27,21 @@ public class Restaurante {
     @JoinColumn (nullable = false)
     private Cozinha cozinha;
 
+    @ManyToOne
+    @JoinColumn (nullable = false)
+    private FormaPagamento formaPagamento;
+
+    @ManyToOne
+    @JoinColumn (nullable = false)
+    private Permicao permicao;
+
+    @ManyToOne
+    @JoinColumn (nullable = false)
+    private Estado estado;
+
+    @ManyToOne
+    @JoinColumn (nullable = false)
+    private Cidade cidade;
 
     @Override
     public boolean equals(Object o) {
