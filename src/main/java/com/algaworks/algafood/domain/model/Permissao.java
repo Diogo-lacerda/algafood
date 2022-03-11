@@ -12,14 +12,11 @@ import javax.persistence.Id;
 @Setter
 @Getter
 @Entity
-public class Permicao {
+public class Permissao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String aprovado;
-    private String cancelado;
-    private String emAndamento;
-
+    private String nome;
 
 }

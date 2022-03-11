@@ -1,6 +1,5 @@
 package com.algaworks.algafood.domain.model;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,7 +32,7 @@ public class Restaurante {
 
     @ManyToOne
     @JoinColumn (nullable = false)
-    private Permicao permicao;
+    private Permissao permissao;
 
     @ManyToOne
     @JoinColumn (nullable = false)

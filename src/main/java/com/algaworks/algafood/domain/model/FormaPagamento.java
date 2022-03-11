@@ -15,13 +15,5 @@ public class FormaPagamento {
     private Long id;
 
 
-    private BigDecimal cartaoDebito;
-
-    private BigDecimal cartaoCredito;
-
-    private BigDecimal dinheiro;
-
-    private BigDecimal pix;
-
-
+    private String nome;
 }
