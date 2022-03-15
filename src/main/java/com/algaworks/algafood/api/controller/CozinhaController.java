@@ -3,10 +3,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.repository.CozinhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,6 +18,11 @@ public class CozinhaController {
     @GetMapping
     public List<Cozinha> Listar(){
         return cozinhaRepository.Listar();
+    }
+
+    @GetMapping("/{cozinhaId}")
+    public Cozinha busca (@PathVariable Long cozinhaId){
+        return cozinhaRepository.buscar(cozinhaId);
     }
 
 }
