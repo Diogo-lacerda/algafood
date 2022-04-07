@@ -44,13 +44,24 @@ public class CozinhaController {
                                              @RequestBody Cozinha cozinha) {
         Cozinha cozinhaAtual = cozinhaRepository.buscar(cozinhaId);
 
-        if (cozinhaAtual != null){
+        if (cozinhaAtual != null) {
 
 //        cozinhaAtual.setNome(cozinha.getNome());
-        BeanUtils.copyProperties(cozinha, cozinhaAtual, "Id");
+            BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
 
-        cozinhaRepository.salvar(cozinhaAtual);
-        return ResponseEntity.ok(cozinhaAtual);
+            cozinhaRepository.salvar(cozinhaAtual);
+            return ResponseEntity.ok(cozinhaAtual);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/{cozinhaId}")
+    public ResponseEntity<Cozinha> remover(@PathVariable long cozinhaId) {
+        Cozinha cozinha = cozinhaRepository.buscar(cozinhaId);
+
+        if (cozinha != null) {
+            cozinhaRepository.remover(cozinha);
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
