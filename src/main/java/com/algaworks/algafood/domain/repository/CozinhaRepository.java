@@ -1,4 +1,4 @@
-package com.algaworks.algafood.domain.model.repository;
+package com.algaworks.algafood.domain.repository;
 
 import com.algaworks.algafood.domain.model.Cozinha;
 
@@ -9,7 +9,7 @@ public interface CozinhaRepository {
 
     Cozinha buscar (Long id);
     Cozinha salvar (Cozinha cozinha);
-    void remover (Cozinha cozinha);
+    void remover (Long id);
     List<Cozinha> Listar();
 
 }
