@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cozinhas")
-@CrossOrigin(allowedHeaders = "*")
+@CrossOrigin(allowedHeaders = "*") //fazer comunicação com o front, "*" aceita requisições de todos os lugares
 public class CozinhaController {
 
     @Autowired
@@ -55,7 +55,7 @@ public class CozinhaController {
 //        cozinhaAtual.setNome(cozinha.getNome());
             BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
 
-            cozinhaRepository.salvar(cozinhaAtual);
+            cozinhaService.salvar(cozinhaAtual);
             return ResponseEntity.ok(cozinhaAtual);
         }
         return ResponseEntity.notFound().build();

@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
 
 @Setter
@@ -16,30 +17,34 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column (nullable = false)
+    @Column(nullable = false)
     private String nome;
 
     @Column(name = "taxa_frete", precision = 19, scale = 2, nullable = false)
     private BigDecimal taxaFrete;
 
     @ManyToOne
-    @JoinColumn (nullable = false)
+    @JoinColumn(nullable = false)
     private Cozinha cozinha;
 
-    @ManyToOne
-    @JoinColumn (nullable = false)
-    private FormaPagamento formaPagamento;
+    @ManyToMany
+    @JoinTable(name = "restaurante_tem_forma_pagamento",joinColumns = {
+            @JoinColumn(name = "restaurante_id")
+    },inverseJoinColumns = {
+            @JoinColumn(name = "forma_pagamento_id")
+    })
+    private List<FormaPagamento> formaPagamento;
 
     @ManyToOne
-    @JoinColumn (nullable = false)
+    @JoinColumn(nullable = false)
     private Permissao permissao;
 
     @ManyToOne
-    @JoinColumn (nullable = false)
+    @JoinColumn(nullable = false)
     private Estado estado;
 
     @ManyToOne
-    @JoinColumn (nullable = false)
+    @JoinColumn(nullable = false)
     private Cidade cidade;
 
     @Override

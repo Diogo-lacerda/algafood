@@ -3,7 +3,9 @@ package com.algaworks.algafood.domain.service;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaExcption;
 import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,27 +14,27 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class CadastroCozinhaService {
+public class CadastroRestauranteService {
 
     @Autowired
-    private CozinhaRepository cozinhaRepository;
+    private RestauranteRepository restauranteRepository;
 
-    public Cozinha salvar(Cozinha cozinha) {
-        return cozinhaRepository.salvar(cozinha);
+    public Restaurante salvar(Restaurante restaurante) {
+        return restauranteRepository.salvar(restaurante);
     }
 
-    public void excluir (Long cozinhaId){
+    public void excluir (Restaurante restaurante){
         try {
-            cozinhaRepository.remover(cozinhaId);
+            restauranteRepository.remover(restaurante);
 
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaExcption(
-                    String.format("Cozinha de código %d não existe", cozinhaId));
+                    String.format("Cozinha de código %d não existe", restaurante));
 
         } catch (DataIntegrityViolationException e) {
 
             throw new EntidadeEmUsoException(
-                String.format("Cozinha de código %d não pode ser removida, pois está em uso",cozinhaId));
+                    String.format("Cozinha de código %d não pode ser removida, pois está em uso",restaurante));
         }
 
     }
