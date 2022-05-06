@@ -25,6 +25,8 @@ public class RestauranteController {
     @Autowired // Injeção de dependência
     private RestauranteRepository restauranteRepository;
 
+
+    @GetMapping //Habilita requisição do tipo Get com o Postman
     public List<Restaurante> Listar() {
         return restauranteRepository.Listar();
     }
@@ -51,7 +53,6 @@ public class RestauranteController {
 
         if (restauranteBd != null) {
 
-//        cozinhaAtual.setNome(restaurante.getNome());
             BeanUtils.copyProperties(restaurante, restauranteBd, "id");
 
             restauranteService.salvar(restauranteBd);
