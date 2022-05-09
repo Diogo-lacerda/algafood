@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cidades")
-@CrossOrigin(allowedHeaders ="*")
+@CrossOrigin(allowedHeaders = "*")
 public class CidadeController {
 
     @Autowired
@@ -30,6 +30,7 @@ public class CidadeController {
     public List<Cidade> Listar() {
         return cidadeRepository.Listar();
     }
+
     @GetMapping("/{cidadeId}")
     public ResponseEntity<Cidade> busca(@PathVariable Long cidadeId) {
         Cidade cidade = cidadeRepository.buscar(cidadeId);
@@ -49,7 +50,7 @@ public class CidadeController {
     @PutMapping("/{cidadeId}")
     public ResponseEntity<Cidade> atualizar(@PathVariable Long cidadeId,
                                             @RequestBody Cidade cidade) {
-       Cidade cidadeBd = cidadeRepository.buscar(cidadeId);
+        Cidade cidadeBd = cidadeRepository.buscar(cidadeId);
 
         if (cidadeBd != null) {
 

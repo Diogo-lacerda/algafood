@@ -1,6 +1,7 @@
 package com.algaworks.algafood.infrastructure.repository;
 
 import com.algaworks.algafood.domain.model.Cidade;
+import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.repository.CidadeRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,19 +18,20 @@ public class CidadeRepositoryImpl implements CidadeRepository {
 
     @Override
     public Cidade buscar(Long id) {
-        return null;
+        return manager.find(Cidade.class, id);
     }
 
     @Transactional
     @Override
     public Cidade salvar(Cidade cidade) {
-        return null;
+        return manager.merge(cidade);
     }
 
     @Transactional
     @Override
     public void remover(Cidade cidade) {
-
+        cidade = buscar(cidade.getId());
+        manager.remove(cidade);
     }
 
     @Override
