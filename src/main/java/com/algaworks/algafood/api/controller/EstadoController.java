@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/estados")
@@ -27,14 +28,14 @@ public class EstadoController {
 
     @GetMapping //Habilita requisição do tipo Get com o Postman
     public List<Estado> Listar() {
-        return estadoRepository.Listar();
+        return estadoRepository.findAll();
     }
 
     @GetMapping("/{estadoId}")
     public ResponseEntity<Estado> busca(@PathVariable Long estadoId) {
-        Estado estado = estadoRepository.buscar(estadoId);
-        if (estado != null) {
-            return ResponseEntity.ok(estado);
+        Optional <Estado> estado = estadoRepository.findById(estadoId);
+        if (estado.isPresent()) {
+            return ResponseEntity.ok(estado.get());
         }
 
         return ResponseEntity.notFound().build();
@@ -49,14 +50,14 @@ public class EstadoController {
     @PutMapping("/{estadoId}")
     public ResponseEntity<Estado> atualizar(@PathVariable Long estadoId,
                                             @RequestBody Estado estado) {
-        Estado estadoBd = estadoRepository.buscar(estadoId);
+        Optional <Estado> estadoBd = estadoRepository.findById(estadoId);
 
-        if (estadoBd != null) {
+        if (estadoBd.isPresent()) {
 
-            BeanUtils.copyProperties(estado, estadoBd, "id");
+            BeanUtils.copyProperties(estado, estadoBd.get(), "id");
 
-            estadoService.salvar(estadoBd);
-            return ResponseEntity.ok(estadoBd);
+            estadoService.salvar(estadoBd.get());
+            return ResponseEntity.ok(estadoBd.get());
         }
         return ResponseEntity.notFound().build();
     }
@@ -64,10 +65,10 @@ public class EstadoController {
     @DeleteMapping("/{estadoId}")
     public ResponseEntity<Estado> remover(@PathVariable Long estadoId) {
         try {
-            Estado estado = estadoRepository.buscar(estadoId);
+            Optional <Estado> estado = estadoRepository.findById(estadoId);
 
-            if (estado != null) {
-                estadoRepository.remover(estado);
+            if (estado.isPresent()) {
+                estadoRepository.delete(estado.get());
                 return ResponseEntity.noContent().build();
             }
             return ResponseEntity.notFound().build();

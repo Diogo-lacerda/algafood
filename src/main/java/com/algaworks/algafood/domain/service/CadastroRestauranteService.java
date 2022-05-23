@@ -19,13 +19,22 @@ public class CadastroRestauranteService {
     @Autowired
     private RestauranteRepository restauranteRepository;
 
+    @Autowired
+    private CozinhaRepository cozinhaRepository;
+
     public Restaurante salvar(Restaurante restaurante) {
-        return restauranteRepository.salvar(restaurante);
+        Long cozinhaId = restaurante.getCozinha().getId();
+        Cozinha cozinha = cozinhaRepository.findById(cozinhaId)
+                .orElseThrow(() -> new EntidadeNaoEncontradaExcption(String
+                        .format("Não existe cadastro de cozinha com o código %d", cozinhaId)));
+
+        restaurante.setCozinha(cozinha);
+        return restauranteRepository.save(restaurante);
     }
 
-    public void excluir (Restaurante restaurante){
+    public void excluir(Restaurante restaurante) {
         try {
-            restauranteRepository.remover(restaurante);
+            restauranteRepository.delete(restaurante);
 
         } catch (EmptyResultDataAccessException e) {
             throw new EntidadeNaoEncontradaExcption(
@@ -34,7 +43,7 @@ public class CadastroRestauranteService {
         } catch (DataIntegrityViolationException e) {
 
             throw new EntidadeEmUsoException(
-                    String.format("Cozinha de código %d não pode ser removida, pois está em uso",restaurante));
+                    String.format("Cozinha de código %d não pode ser removida, pois está em uso", restaurante));
         }
 
     }

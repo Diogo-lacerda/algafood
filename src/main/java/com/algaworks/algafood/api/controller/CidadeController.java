@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/cidades")
@@ -28,14 +29,14 @@ public class CidadeController {
 
     @GetMapping //Habilita requisição do tipo Get com o Postman
     public List<Cidade> Listar() {
-        return cidadeRepository.Listar();
+        return cidadeRepository.findAll();
     }
 
     @GetMapping("/{cidadeId}")
     public ResponseEntity<Cidade> busca(@PathVariable Long cidadeId) {
-        Cidade cidade = cidadeRepository.buscar(cidadeId);
-        if (cidade != null) {
-            return ResponseEntity.ok(cidade);
+        Optional <Cidade> cidade = cidadeRepository.findById(cidadeId);
+        if (cidade.isPresent()) {
+            return ResponseEntity.ok(cidade.get());
         }
 
         return ResponseEntity.notFound().build();
@@ -50,15 +51,14 @@ public class CidadeController {
     @PutMapping("/{cidadeId}")
     public ResponseEntity<Cidade> atualizar(@PathVariable Long cidadeId,
                                             @RequestBody Cidade cidade) {
-        Cidade cidadeBd = cidadeRepository.buscar(cidadeId);
+       Optional <Cidade> cidadeBd = cidadeRepository.findById(cidadeId);
 
-        if (cidadeBd != null) {
+        if (cidadeBd.isPresent()) {
 
+            BeanUtils.copyProperties(cidade, cidadeBd.get(), "id");
 
-            BeanUtils.copyProperties(cidade, cidadeBd, "id");
-
-            cidadeService.salvar(cidadeBd);
-            return ResponseEntity.ok(cidadeBd);
+            cidadeService.salvar(cidadeBd.get());
+            return ResponseEntity.ok(cidadeBd.get());
         }
         return ResponseEntity.notFound().build();
     }
@@ -66,10 +66,10 @@ public class CidadeController {
     @DeleteMapping("/{cidadeId}")
     public ResponseEntity<Cidade> remover(@PathVariable Long cidadeId) {
         try {
-            Cidade cidade = cidadeRepository.buscar(cidadeId);
+            Optional <Cidade> cidade = cidadeRepository.findById(cidadeId);
 
-            if (cidade != null) {
-                cidadeRepository.remover(cidade);
+            if (cidade.isPresent()) {
+                cidadeRepository.findById(cidadeId);
                 return ResponseEntity.noContent().build();
             }
             return ResponseEntity.notFound().build();
