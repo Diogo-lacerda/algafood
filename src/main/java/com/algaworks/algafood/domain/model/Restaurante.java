@@ -60,8 +60,8 @@ public class Restaurante implements Serializable {
     @UpdateTimestamp
     private LocalDateTime dataAtualizacao;
 
-    @ManyToOne
-    private List<Produto> produto;
+    @OneToMany
+    private List<Produto> produtos;
 
 
     @Override
