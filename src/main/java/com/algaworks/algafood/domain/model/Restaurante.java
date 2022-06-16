@@ -60,7 +60,8 @@ public class Restaurante implements Serializable {
     @UpdateTimestamp
     private LocalDateTime dataAtualizacao;
 
-    @OneToMany
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos;
 
 

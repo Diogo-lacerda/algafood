@@ -38,3 +38,5 @@ insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) val
 
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (3, 2);
 insert into restaurante_forma_pagamento (restaurante_id, forma_pagamento_id) values (3, 3);
+
+insert into produto (nome, descricao, preco, ativo,  restaurante_id) values ('coca_cola 2 litros', 'bebida_veneno', '10.99', true, 2);

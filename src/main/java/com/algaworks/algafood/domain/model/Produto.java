@@ -1,12 +1,14 @@
 package com.algaworks.algafood.domain.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Setter
@@ -14,9 +16,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Produto {
+public class Produto implements Serializable {
     @Id
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -31,6 +33,10 @@ public class Produto {
     @Column(nullable = false)
     private Boolean ativo;
 
+
+    @ManyToOne
+    @JoinColumn (nullable = false)
+    private Restaurante restaurante;
 
 
 }
