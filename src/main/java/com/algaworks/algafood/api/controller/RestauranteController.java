@@ -33,7 +33,8 @@ public class RestauranteController {
 
 
     @GetMapping //Habilita requisição do tipo Get com o Postman
-    public List<Restaurante> Listar() {
+    public List<Restaurante> listar() {
+
         return restauranteRepository.findAll();
     }
 

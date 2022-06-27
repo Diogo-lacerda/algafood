@@ -34,11 +34,12 @@ public class Restaurante implements Serializable {
     @Column(name = "taxa_frete", precision = 19, scale = 2, nullable = false)
     private BigDecimal taxaFrete;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
+//    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
 
-    @JsonIgnore
+//    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name = "restaurante_id"),
@@ -46,7 +47,7 @@ public class Restaurante implements Serializable {
     private List<FormaPagamento> formasPagamento = new ArrayList<>();
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false)
     private Permissao permissao;
 
