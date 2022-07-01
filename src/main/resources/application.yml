@@ -4,14 +4,19 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password: password
+    hikari:
+      maximum-pool-size: 5
+      minimum-idle: 3
+      idle-timeout: 1000
+
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create
+#
     show-sql: true
-
+  #     generate-ddl: true
+  #      hibernate:
+  #        ddl-auto: none
 
   h2:
     console:

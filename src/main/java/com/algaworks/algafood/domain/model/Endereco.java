@@ -1,6 +1,8 @@
 package com.algaworks.algafood.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,6 +10,8 @@ import javax.persistence.*;
 @Setter
 @Getter
 @Embeddable
+@AllArgsConstructor
+@NoArgsConstructor
 public class Endereco {
 
     @Column(name = "endereco_cep")
@@ -25,7 +29,7 @@ public class Endereco {
     @Column(name = "endereco_bairro")
     private String bairro;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "endereco_cidade_id")
     private Cidade cidade;
 

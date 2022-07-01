@@ -35,7 +35,7 @@ public class Restaurante implements Serializable {
     private BigDecimal taxaFrete;
 
 //    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne //(fetch = FetchType.LAZY)
     @JoinColumn(name = "cozinha_id", nullable = false)
     private Cozinha cozinha;
 
@@ -44,38 +44,25 @@ public class Restaurante implements Serializable {
     @JoinTable(name = "restaurante_forma_pagamento",
             joinColumns = @JoinColumn(name = "restaurante_id"),
             inverseJoinColumns = @JoinColumn(name = "forma_pagamento_id"))
-    private List<FormaPagamento> formasPagamento = new ArrayList<>();
+    private List<FormaPagamento> formaPagamento = new ArrayList<>();
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(nullable = false)
-    private Permissao permissao;
 
     @JsonIgnore
     @Embedded
     private Endereco endereco;
 
+    @JsonIgnore
     @CreationTimestamp
+    @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime dataCadastro;
 
+    @JsonIgnore
     @UpdateTimestamp
+    @Column(nullable = false, columnDefinition = "datetime")
     private LocalDateTime dataAtualizacao;
 
     @JsonIgnore
     @OneToMany(mappedBy = "restaurante")
-    private List<Produto> produtos;
+    private List<Produto> produtos = new ArrayList<>();
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Restaurante that = (Restaurante) o;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
-    }
 }

@@ -1,16 +1,19 @@
 package com.algaworks.algafood.domain.model;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
 @Setter
 @Getter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Cozinha {
 
     @Id
@@ -20,17 +23,7 @@ public class Cozinha {
     @Column (nullable = false)
     public String nome;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cozinha cozinha = (Cozinha) o;
-        return id.equals(cozinha.id) && Objects.equals(nome, cozinha.nome);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nome);
-    }
-
+    @JsonIgnore
+    @OneToMany(mappedBy = "cozinha")
+    private List<Restaurante> restaurante = new ArrayList<>();
 }
