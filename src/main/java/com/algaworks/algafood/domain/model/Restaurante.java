@@ -21,7 +21,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Restaurante implements Serializable {
+public class Restaurante {
 
 
     @Id
