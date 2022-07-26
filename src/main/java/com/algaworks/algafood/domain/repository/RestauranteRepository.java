@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface RestauranteRepository extends JpaRepository<Restaurante,Long> {
-   @Query("from Restaurante r join r.cozinha join fetch r.formaPagamento") // a escrita dentro do parametro e uma JPQL.
+   @Query("from Restaurante r join r.cozinha") // a escrita dentro do parametro e uma JPQL.
     List<Restaurante> findAll();
 }

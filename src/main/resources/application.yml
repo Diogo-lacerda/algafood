@@ -1,4 +1,7 @@
 spring:
+  flyway:
+    locations: classpath:db/migration,classpath:db/testdata
+
   datasource:
     url: jdbc:mysql://localhost:3306/algafooddb?serverTimezone=UTC&createDatabaseIfNotExist=true
     driverClassName: com.mysql.cj.jdbc.Driver
@@ -15,12 +18,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL57Dialect
       #       database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-      javax:
-        persistence:
-          schema-generation:
-            scripts:
-              action: create
-              create-target: src/main/resources/ddl.sql
+
     show-sql: true
   #     generate-ddl: true
   #      hibernate:
