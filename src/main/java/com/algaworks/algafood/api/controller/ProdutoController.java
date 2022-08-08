@@ -1,11 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaExcption;
-import com.algaworks.algafood.domain.model.Cidade;
-import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Produto;
-import com.algaworks.algafood.domain.model.Restaurante;
-import com.algaworks.algafood.domain.service.CadastroCidadeService;
 import com.algaworks.algafood.domain.service.CadastroProdutoService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +48,7 @@ public class ProdutoController {
             Produto produtoBd = produtoService.salvar(produto);
             return ResponseEntity.status(HttpStatus.CREATED).body(produtoBd);
 
-        } catch (EntidadeNaoEncontradaExcption excption){
+        } catch (EntidadeNaoEncontradaException excption){
             return ResponseEntity.notFound().build();
         }
     }

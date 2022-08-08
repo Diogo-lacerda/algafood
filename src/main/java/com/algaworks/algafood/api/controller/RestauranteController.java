@@ -1,8 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaExcption;
-import com.algaworks.algafood.domain.model.Cozinha;
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
@@ -60,7 +59,7 @@ public class RestauranteController {
            Restaurante restauranteBd = restauranteService.salvar(restaurante);
            return ResponseEntity.status(HttpStatus.CREATED).body(restauranteBd);
 
-       } catch (EntidadeNaoEncontradaExcption excption){
+       } catch (EntidadeNaoEncontradaException excption){
            return ResponseEntity.notFound().build();
        }
 

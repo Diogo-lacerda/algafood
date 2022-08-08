@@ -3,6 +3,7 @@ package com.algaworks.algafood.api.controller;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
+import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -63,18 +64,24 @@ public class CozinhaController {
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{cozinhaId}")
-    public ResponseEntity<Cozinha> remover(@PathVariable long cozinhaId) {
-        try {
-           Optional <Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
+//    @DeleteMapping("/{cozinhaId}")
+//    public ResponseEntity<Cozinha> remover(@PathVariable long cozinhaId) {
+//        try {
+//           Optional <Cozinha> cozinha = cozinhaRepository.findById(cozinhaId);
+//
+//            if (cozinha.isPresent()) {
+//                cozinhaRepository.deleteById(cozinhaId);
+//                return ResponseEntity.noContent().build();
+//            }
+//            return ResponseEntity.notFound().build();
+//        } catch (DataIntegrityViolationException e) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+//        }
+//    }
 
-            if (cozinha.isPresent()) {
-                cozinhaRepository.deleteById(cozinhaId);
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.notFound().build();
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+    @DeleteMapping("/{cozinhaId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long cozinhaId) {
+        cozinhaService.excluir(cozinhaId);
     }
 }

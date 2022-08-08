@@ -1,11 +1,9 @@
 package com.algaworks.algafood.domain.service;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaExcption;
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Estado;
-import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.EstadoRepository;
-import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -28,7 +26,7 @@ public class CadastroEstadoService {
             estadoRepository.delete(estado);
 
         } catch (EmptyResultDataAccessException e) {
-            throw new EntidadeNaoEncontradaExcption(
+            throw new EntidadeNaoEncontradaException(
                     String.format("Estado de código %d não existe", estado));
 
         } catch (DataIntegrityViolationException e) {
