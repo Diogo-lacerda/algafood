@@ -32,48 +32,26 @@ public class EstadoController {
     }
 
     @GetMapping("/{estadoId}")
-    public ResponseEntity<Estado> busca(@PathVariable Long estadoId) {
-        Optional <Estado> estado = estadoRepository.findById(estadoId);
-        if (estado.isPresent()) {
-            return ResponseEntity.ok(estado.get());
-        }
-
-        return ResponseEntity.notFound().build();
+    public Estado busca(@PathVariable Long estadoId) {
+        return estadoService.buscarOuFalhar(estadoId);
     }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Estado adicionar(@RequestBody Estado estado) {
+
         return estadoService.salvar(estado);
     }
-
     @PutMapping("/{estadoId}")
-    public ResponseEntity<Estado> atualizar(@PathVariable Long estadoId,
+    public Estado atualizar(@PathVariable Long estadoId,
                                             @RequestBody Estado estado) {
-        Optional <Estado> estadoBd = estadoRepository.findById(estadoId);
-
-        if (estadoBd.isPresent()) {
-
-            BeanUtils.copyProperties(estado, estadoBd.get(), "id");
-
-            estadoService.salvar(estadoBd.get());
-            return ResponseEntity.ok(estadoBd.get());
-        }
-        return ResponseEntity.notFound().build();
+        Estado estadoBd = estadoService.buscarOuFalhar(estadoId);
+        BeanUtils.copyProperties(estado, estadoBd, "id");
+        return estadoService.salvar(estadoBd);
     }
 
     @DeleteMapping("/{estadoId}")
-    public ResponseEntity<Estado> remover(@PathVariable Long estadoId) {
-        try {
-            Optional <Estado> estado = estadoRepository.findById(estadoId);
-
-            if (estado.isPresent()) {
-                estadoRepository.delete(estado.get());
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.notFound().build();
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long estadoId) {
+       estadoService.excluir(estadoId);
     }
 }

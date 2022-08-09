@@ -33,48 +33,24 @@ public class CidadeController {
     }
 
     @GetMapping("/{cidadeId}")
-    public ResponseEntity<Cidade> busca(@PathVariable Long cidadeId) {
-        Optional <Cidade> cidade = cidadeRepository.findById(cidadeId);
-        if (cidade.isPresent()) {
-            return ResponseEntity.ok(cidade.get());
-        }
-
-        return ResponseEntity.notFound().build();
+    public Cidade busca(@PathVariable Long cidadeId) {
+        return cidadeService.buscarOuFalhar(cidadeId);
     }
-
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Cidade adicionar(@RequestBody Cidade cidade) {
         return cidadeService.salvar(cidade);
     }
-
     @PutMapping("/{cidadeId}")
-    public ResponseEntity<Cidade> atualizar(@PathVariable Long cidadeId,
+    public Cidade atualizar(@PathVariable Long cidadeId,
                                             @RequestBody Cidade cidade) {
-       Optional <Cidade> cidadeBd = cidadeRepository.findById(cidadeId);
-
-        if (cidadeBd.isPresent()) {
-
-            BeanUtils.copyProperties(cidade, cidadeBd.get(), "id");
-
-            cidadeService.salvar(cidadeBd.get());
-            return ResponseEntity.ok(cidadeBd.get());
-        }
-        return ResponseEntity.notFound().build();
+       Cidade cidadeBd = cidadeService.buscarOuFalhar(cidadeId);
+        BeanUtils.copyProperties(cidade, cidadeBd, "id");
+        return cidadeService.salvar(cidadeBd);
     }
-
     @DeleteMapping("/{cidadeId}")
-    public ResponseEntity<Cidade> remover(@PathVariable Long cidadeId) {
-        try {
-            Optional <Cidade> cidade = cidadeRepository.findById(cidadeId);
-
-            if (cidade.isPresent()) {
-                cidadeRepository.findById(cidadeId);
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.notFound().build();
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long cidadeId) {
+       cidadeService.excluir(cidadeId);
     }
 }
