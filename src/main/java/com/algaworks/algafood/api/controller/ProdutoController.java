@@ -1,6 +1,7 @@
 package com.algaworks.algafood.api.controller;
 
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.model.Estado;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.service.CadastroProdutoService;
 import org.springframework.beans.BeanUtils;
@@ -28,59 +29,30 @@ public class ProdutoController {
 
     @GetMapping("/{produtoId}")
     public ResponseEntity<Produto> busca(@PathVariable Long produtoId) {
-        Optional<Produto> produto = produtoService.findById(produtoId);
-        if (produto.isPresent()) {
-            return ResponseEntity.ok(produto.get());
-
-
-//        return ResponseEntity.notFound().build();
-//        return Optional.ofNullable(restauranteRepository.findById(restauranteId))
-//                .map(ResponseEntity::ok)
-//                .orElseGet(() -> ResponseEntity.notFound().build());
-        }
-        return ResponseEntity.notFound().build();
+        Produto produto = produtoService.buscarOuFalhar(produtoId);
+        return ResponseEntity.ok(produto);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity <Produto> adicionar(@RequestBody Produto produto) {
-        try {
-            Produto produtoBd = produtoService.salvar(produto);
-            return ResponseEntity.status(HttpStatus.CREATED).body(produtoBd);
-
-        } catch (EntidadeNaoEncontradaException excption){
-            return ResponseEntity.notFound().build();
-        }
+        Produto salvar = produtoService.salvar(produto);
+        return ResponseEntity.ok(produto);
     }
 
 
     @PutMapping("/{produtoId}")
     public ResponseEntity<Produto> atualizar(@PathVariable Long produtoId,
                                                  @RequestBody Produto produto) {
-        Optional <Produto> produtoBd = produtoService.findById(produtoId);
-
-        if (produtoBd.isPresent()) {
-
-            BeanUtils.copyProperties(produto, produtoBd.get(), "id");
-
-            produtoService.salvar(produtoBd.get());
-            return ResponseEntity.ok(produtoBd.get());
-        }
-        return ResponseEntity.notFound().build();
+        Produto produtoBd = produtoService.buscarOuFalhar(produtoId);
+        BeanUtils.copyProperties(produto, produtoBd, "id");
+        return ResponseEntity.ok(produto);
     }
 
     @DeleteMapping("/{produtoId}")
-    public ResponseEntity<Produto> remover(@PathVariable Long produtoId) {
-        try {
-            Optional <Produto> produto = produtoService.findById(produtoId);
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void remover(@PathVariable Long produtoId) {
+        produtoService.delete(produtoId);
 
-            if (produto.isPresent()) {
-              produtoService.delete(produto.get());
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.notFound().build();
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
     }
 }

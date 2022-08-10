@@ -33,8 +33,8 @@ public class CidadeController {
     }
 
     @GetMapping("/{cidadeId}")
-    public Cidade busca(@PathVariable Long cidadeId) {
-        return cidadeService.buscarOuFalhar(cidadeId);
+    public ResponseEntity <Cidade> busca(@PathVariable Long cidadeId) {
+        return ResponseEntity.ok (cidadeService.buscarOuFalhar(cidadeId));
     }
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -42,11 +42,11 @@ public class CidadeController {
         return cidadeService.salvar(cidade);
     }
     @PutMapping("/{cidadeId}")
-    public Cidade atualizar(@PathVariable Long cidadeId,
+    public ResponseEntity <Cidade> atualizar(@PathVariable Long cidadeId,
                                             @RequestBody Cidade cidade) {
        Cidade cidadeBd = cidadeService.buscarOuFalhar(cidadeId);
         BeanUtils.copyProperties(cidade, cidadeBd, "id");
-        return cidadeService.salvar(cidadeBd);
+        return ResponseEntity.ok (cidadeService.salvar(cidadeBd));
     }
     @DeleteMapping("/{cidadeId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

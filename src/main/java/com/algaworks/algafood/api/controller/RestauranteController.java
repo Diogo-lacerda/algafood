@@ -2,10 +2,12 @@ package com.algaworks.algafood.api.controller;
 
 
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.URI;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -33,66 +35,31 @@ public class RestauranteController {
 
     @GetMapping //Habilita requisição do tipo Get com o Postman
     public List<Restaurante> listar() {
-
         return restauranteRepository.findAll();
     }
 
     @GetMapping("/{restauranteId}")
-    public ResponseEntity<Restaurante> busca(@PathVariable Long restauranteId) {
-        Optional <Restaurante> restaurante = restauranteRepository.findById(restauranteId);
-        if (restaurante.isPresent()) {
-            return ResponseEntity.ok(restaurante.get());
-
-
-//        return ResponseEntity.notFound().build();
-//        return Optional.ofNullable(restauranteRepository.findById(restauranteId))
-//                .map(ResponseEntity::ok)
-//                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity <Restaurante> busca(@PathVariable Long restauranteId) {
+        return ResponseEntity.ok(restauranteService.buscarOuFalhar(restauranteId));
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity <Restaurante> adicionar(@RequestBody Restaurante restaurante) {
-       try {
-           Restaurante restauranteBd = restauranteService.salvar(restaurante);
-           return ResponseEntity.status(HttpStatus.CREATED).body(restauranteBd);
 
-       } catch (EntidadeNaoEncontradaException excption){
-           return ResponseEntity.notFound().build();
-       }
-
+    public Restaurante adicionar(@RequestBody Restaurante restaurante) {
+        return restauranteService.salvar(restaurante);
     }
 
     @PutMapping("/{restauranteId}")
     public ResponseEntity<Restaurante> atualizar(@PathVariable Long restauranteId,
                                                  @RequestBody Restaurante restaurante) {
-        Optional <Restaurante> restauranteBd = restauranteRepository.findById(restauranteId);
-
-        if (restauranteBd.isPresent()) {
-
-            BeanUtils.copyProperties(restaurante, restauranteBd.get(), "id");
-
-            restauranteService.salvar(restauranteBd.get());
-            return ResponseEntity.ok(restauranteBd.get());
-        }
-        return ResponseEntity.notFound().build();
+        Restaurante restauranteAtual = restauranteService.buscarOuFalhar(restauranteId);
+        BeanUtils.copyProperties(restaurante, restauranteAtual, "id");
+        return ResponseEntity.ok(restauranteService.salvar(restauranteAtual));
     }
 
     @DeleteMapping("/{restauranteId}")
-    public ResponseEntity<Restaurante> remover(@PathVariable Long restauranteId) {
-        try {
-            Optional <Restaurante> restaurante = restauranteRepository.findById(restauranteId);
-
-            if (restaurante.isPresent()) {
-                restauranteRepository.delete(restaurante.get());
-                return ResponseEntity.noContent().build();
-            }
-            return ResponseEntity.notFound().build();
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+    public void remover(@PathVariable Long restauranteId) {
+        restauranteService.excluir(restauranteId);
     }
 
     @PatchMapping("/{restauranteId}")

@@ -42,11 +42,11 @@ public class CozinhaController {
     }
 
     @PutMapping("/{cozinhaId}")
-    public Cozinha atualizar(@PathVariable long cozinhaId,
+    public ResponseEntity <Cozinha> atualizar(@PathVariable long cozinhaId,
                                              @RequestBody Cozinha cozinha) {
         Cozinha cozinhaAtual = cozinhaService.buscarOuFalhar(cozinhaId);
         BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
-        return cozinhaService.salvar(cozinhaAtual);
+        return ResponseEntity.ok(cozinhaService.salvar(cozinhaAtual));
 
     }
     @DeleteMapping("/{cozinhaId}")
