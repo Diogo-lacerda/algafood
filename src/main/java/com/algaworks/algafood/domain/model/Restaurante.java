@@ -1,6 +1,7 @@
 package com.algaworks.algafood.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +29,7 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank(message = "Nome e obrigatório")
     @Column(nullable = false)
     private String nome;
 
@@ -65,7 +67,7 @@ public class Restaurante {
     @OneToMany(mappedBy = "restaurante")
     private List<Produto> produtos = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "restaurante")
     private List<Pedido> pedidos = new ArrayList<>();
 
 }

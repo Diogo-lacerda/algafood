@@ -40,7 +40,7 @@ create table restaurante
     endereco_bairro      varchar(255),
     endereco_cep         varchar(100),
     endereco_complemento varchar(255),
-    endereco_lograduro   varchar(255),
+    endereco_logradouro   varchar(255),
     endereco_numero      varchar(255),
     nome                 varchar(255)   not null,
     taxa_frete           decimal(19, 2) not null,

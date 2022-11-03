@@ -89,17 +89,17 @@ values ('Uberlandia', 'Minas Gerais', 4);
 
 
 insert into restaurante (data_atualizacao, data_cadastro, nome, taxa_frete, cozinha_id,
-                         endereco_cep, endereco_lograduro, endereco_numero, endereco_complemento,
+                         endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento,
                          endereco_bairro, endereco_cidade_id)
 values ('2022-06-07 15:05:41.000000', '2022-06-07 15:05:41.000000', 'Tailandesa', 10.00, 1, '77890720',
         'rua 2 QD 41', 'CS 2', 'S/C', 'Taquaralto', 1);
 insert into restaurante (data_atualizacao, data_cadastro, nome, taxa_frete, cozinha_id,
-                         endereco_cep, endereco_lograduro, endereco_numero, endereco_complemento,
+                         endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento,
                          endereco_bairro, endereco_cidade_id)
 values ('2022-06-07 15:05:41.000000','2022-06-07 15:05:41.000000' , 'Indiana',10.00 , 2, '77890232',
         'Rua 03 Qd 41', 'CS 23', 'S/C', 'Jacauna',2);
 insert into restaurante (data_atualizacao, data_cadastro, nome, taxa_frete, cozinha_id,
-                         endereco_cep, endereco_lograduro, endereco_numero, endereco_complemento,
+                         endereco_cep, endereco_logradouro, endereco_numero, endereco_complemento,
                          endereco_bairro, endereco_cidade_id)
 values ('2022-06-07 15:05:41.000000', '2022-06-07 15:05:41.000000', 'Brasileira', 10.00, 3, '78643521',
         'Rua 23 Qd 34', 'CS 3','S/C', 'Santa Tereza',3);

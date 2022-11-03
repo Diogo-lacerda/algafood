@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.Data;
@@ -34,7 +35,6 @@ public class Pedido {
 
   @Embedded
   private Endereco enderecoEntrega;
-
   private StatusPedido status;
 
   @CreationTimestamp
